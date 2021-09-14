@@ -59,6 +59,11 @@ client.on('message', async message => {
             client.commands.get('play').execute(message, args, queue, Discord);
             break;
 
+        case 'pn':
+        case 'playnow':
+            client.commands.get('playnow').execute(message, args, queue, Discord);
+            break;
+
         case 's':
         case "skip":
             client.commands.get('skip').execute(message, args, queue, Discord);

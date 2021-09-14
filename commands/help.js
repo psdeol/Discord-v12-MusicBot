@@ -13,6 +13,10 @@ module.exports = {
                 value: 'search YouTube for a song or play from a link' 
             },
             { 
+                name: '!playnow <Search|YouTubeLink>',
+                value: 'skips current song and plays input song' 
+            },
+            { 
                 name: '!skip', 
                 value: 'skips to next song in queue' 
             },
