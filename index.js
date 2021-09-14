@@ -25,7 +25,7 @@ const DB = admin.firestore();
 
 client.once("ready", () => {
     console.log("Music Bot is online");
-    client.user.setActivity("music", {
+    client.user.setActivity("Music", {
         type: "LISTENING",
     });
 });

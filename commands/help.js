@@ -46,10 +46,18 @@ module.exports = {
             },
             { 
                 name: '!playlist play <PlaylistName>', 
-                value: 'adds all songs from playlist into queue' 
+                value: 'adds all songs from playlist into queue in random order' 
+            },
+            { 
+                name: '!playlist show names', 
+                value: 'shows list of all playlist names for server' 
+            },
+            { 
+                name: '!playlist show <PlaylistName>', 
+                value: 'shows list of all songs in playlist' 
             },
         )
-        .setColor('LUMINOUS_VIVID_PINK');
+        .setColor('YELLOW');
 
         return message.channel.send(embed);
     }

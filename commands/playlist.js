@@ -29,6 +29,14 @@ module.exports = {
                     name: '!playlist play <PlaylistName>', 
                     value: 'adds all songs from playlist into queue' 
                 },
+                { 
+                    name: '!playlist show names', 
+                    value: 'shows list of all playlist names for server' 
+                },
+                { 
+                    name: '!playlist show <PlaylistName>', 
+                    value: 'shows list of all songs in playlist' 
+                },
             )
             .setColor('RED');
 
@@ -58,6 +66,10 @@ module.exports = {
             case 'play':
                 client.commands.get('playlist_play').execute(message, args, queue, Discord, DB, admin);
                 break;    
+
+            case 'show':
+                client.commands.get('playlist_show').execute(message, args, queue, Discord, DB, admin);
+                break;
 
             default:
                 let embed = new Discord.MessageEmbed()

@@ -4,19 +4,65 @@ module.exports = {
     cooldown: 0,
     description: 'creates a new playlist in database',
     async execute(message, args, queue, Discord, DB, admin) {
-
-        const voice_channel = message.member.voice.channel;
-
-        if (!voice_channel)
-            return message.channel.send('You need to be in a channel to execute this command');
-
-        if (!args.length)
-            return message.channel.send('You need to send the second argument');
         
         if (!args[0]) return message.channel.send('Enter playlist name');
 
-        await DB.collection(message.guild.id).doc(args[0]).set({
-            songs: []
-        }).then(() => message.channel.send(`Playlist '${args[0]}' created!`));
+        let server_data = await DB.collection(message.guild.id).doc('server_data').get();
+        let num_playlists = 0;
+
+        if (!server_data.exists) {
+            await DB.collection(message.guild.id).doc('server_data').set({
+                server_owner_id: message.guild.owner.id,
+                num_playlists: 0
+            })
+        } else {
+            num_playlists = server_data.data().num_playlists;
+        }
+
+        if (num_playlists <= 10) {
+            let list = args.join(' ');
+
+            if (list === 'all' || list === 'names') {
+                let embed = new Discord.MessageEmbed()
+                .setDescription('❌ Cannot use that name for playlist')
+                .setColor('RED');
+
+                return message.channel.send(embed);
+            }
+
+            let doc = await DB.collection(message.guild.id).doc(list).get();
+
+            if (doc.exists) {
+                let embed = new Discord.MessageEmbed()
+                .setDescription('❌ A playlist with that name already exists')
+                .setColor('RED');
+
+                return message.channel.send(embed);
+
+            } else {
+                await DB.collection(message.guild.id).doc(args[0]).set({
+                    author_name: message.author.username,
+                    author_id: message.author.id,
+                    songs: []
+                }).then(() => {
+                    let embed = new Discord.MessageEmbed()
+                    .setDescription(`👍 Playlist '${args[0]}' created!`)
+                    .setColor('GREEN');
+                    
+                    message.channel.send(embed)
+                });  
+                
+                const res = await DB.collection(message.guild.id).doc('server_data').update({
+                    num_playlists: admin.firestore.FieldValue.increment(1)
+                });
+            }
+
+        } else {
+            let embed = new Discord.MessageEmbed()
+                .setDescription('❌ This server has reached the maximum number of playlists')
+                .setColor('RED');
+
+                return message.channel.send(embed);
+        } 
     }
 }

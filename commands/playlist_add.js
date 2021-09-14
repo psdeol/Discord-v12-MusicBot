@@ -37,6 +37,8 @@ module.exports = {
 
                 let embed = new Discord.MessageEmbed()
                 .setDescription(`👍 ${song.title} added to ${list}`)
+                .setColor('GREEN');
+
                 return message.channel.send(embed);
                 
             } catch (error) {
