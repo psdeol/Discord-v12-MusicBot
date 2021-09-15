@@ -3,7 +3,9 @@ module.exports = {
     aliases: [],
     cooldown: 0,
     description: 'shows names of playlist for server',
-    async execute(message, args, queue, Discord, DB, admin) {
+    async execute(message, args, queue, Discord, admin) {
+        const DB = admin.firestore();
+
         if (!args[0])
             return message.channel.send('Enter second argument');
 

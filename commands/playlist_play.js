@@ -5,8 +5,8 @@ module.exports = {
     aliases: [],
     cooldown: 0,
     description: 'plays songs from playlist',
-    async execute(message, args, queue, Discord, DB, admin) {
-
+    async execute(message, args, queue, Discord, admin) {
+        const DB = admin.firestore();
         const voice_channel = message.member.voice.channel;
         const server_queue = queue.get(message.guild.id);
 

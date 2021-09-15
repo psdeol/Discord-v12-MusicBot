@@ -6,7 +6,8 @@ module.exports = {
     aliases: [],
     cooldown: 0,
     description: 'searches youtube for input song and adds it to playlist',
-    async execute(message, args, queue, Discord, DB, admin) {
+    async execute(message, args, queue, Discord, admin) {
+        const DB = admin.firestore();
 
         if (!args.length || args.length < 2) {
             let embed = new Discord.MessageEmbed()

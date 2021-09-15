@@ -1,7 +1,3 @@
-node_modules
-discord_config.json
-firebase_config.json
-
 # Logs
 logs
 *.log

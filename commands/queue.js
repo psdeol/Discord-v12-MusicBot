@@ -19,7 +19,7 @@ module.exports = {
         let string = "";
 
         if(server_queue.songs[0]) string += `__**Currently Playing**__\n ${server_queue.songs[0].title}\n\n`;
-        if(server_queue.songs[1]) string += `__**Next 10 Songs in Queue**__\n ${server_queue.songs.slice(1, 10).map(x => `**${index++})** ${x.title}`).join("\n")}`;
+        if(server_queue.songs[1]) string += `__**Next 9 Songs in Queue**__\n ${server_queue.songs.slice(1, 10).map(x => `**${index++})** ${x.title}`).join("\n")}`;
 
         let embed = new Discord.MessageEmbed()
         .setAuthor(`Current Queue for ${message.guild.name}`, message.guild.iconURL)

@@ -1,11 +1,29 @@
+require('dotenv').config();
 const Discord = require('discord.js');
 const fs = require('fs');
-var admin = require("firebase-admin");
-var serviceAccount = require("./firebase_config.json");
-const { prefix, token } = require('./discord_config.json');
+const admin = require("firebase-admin");
 
 const client = new Discord.Client();
+const token = process.env.TOKEN;
+const prefix = process.env.PREFIX;
 const queue = new Map();
+
+
+admin.initializeApp({
+    credential: admin.credential.cert({
+        "type": process.env.TYPE,
+        "project_id": process.env.PROJECT_ID,
+        "private_key_id": process.env.PRIVATE_KEY_ID,
+        "private_key": process.env.PRIVATE_KEY,
+        "client_email": process.env.CLIENT_EMAIL,
+        "client_id": process.env.CLIENT_ID,
+        "auth_uri": process.env.AUTH_URI,
+        "token_uri": process.env.TOKEN_URI,
+        "auth_provider_x509_cert_url": process.env.AUTH_PROVIDER_X509_CERT_URL,
+        "client_x509_cert_url": process.env.CLIENT_X509_CERT_URL
+    })
+})
+
 
 const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -15,12 +33,6 @@ for (const file of cmdFiles) {
     const command = require(`./commands/${file}`);
     client.commands.set(command.name, command);
 }
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-})
-
-const DB = admin.firestore();
 
 
 client.once("ready", () => {
@@ -86,7 +98,7 @@ client.on('message', async message => {
 
         case 'pl':
         case 'playlist':
-            client.commands.get('playlist').execute(message, args, queue, client, Discord, DB, admin);
+            client.commands.get('playlist').execute(message, args, queue, client, Discord, admin);
             break;
 
         default:

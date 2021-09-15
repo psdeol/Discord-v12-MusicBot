@@ -31,15 +31,13 @@ module.exports = {
             return message.channel.send(embed);
         }
 
-        //console.log(server_queue.songs);
         server_queue.songs = shuffle(server_queue.songs);
-        //console.log(server_queue.songs);
 
         let index = 1;
         let string = "";
 
         if(server_queue.songs[0]) string += `__**Currently Playing**__\n ${server_queue.songs[0].title}\n\n`;
-        if(server_queue.songs[1]) string += `__**Next 10 Songs in Queue**__\n ${server_queue.songs.slice(1, 10).map(x => `**${index++})** ${x.title}`).join("\n")}`;
+        if(server_queue.songs[1]) string += `__**Next 9 Songs in Queue**__\n ${server_queue.songs.slice(1, 10).map(x => `**${index++})** ${x.title}`).join("\n")}`;
 
         let embed = new Discord.MessageEmbed()
         .setAuthor(`Current Queue for ${message.guild.name}`, message.guild.iconURL)
